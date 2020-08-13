@@ -34,4 +34,23 @@ router.get("/:id/shoppingList", (req, res) => {
     });
 });
 
+router.get("/:id/instructions", (req, res) => {
+  Recipes.getInstructions(req.params.id)
+    .then((instructions) => {
+      if (instructions) {
+        res.status(200).json({ data: instructions });
+      } else {
+        res.status(404).json({
+          message: "Can't find instructions for a recipe with that ID",
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(500)
+        .json({ errorMessage: "Can't retrieve instructions from database" });
+    });
+});
+
 module.exports = router;
